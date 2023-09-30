@@ -1,7 +1,7 @@
 // Sample data for initial testing
 let posts = [
-    { id: 1, title: "Sample Post 1", content: "This is the first post." },
-    { id: 2, title: "Sample Post 2", content: "This is the second post." }
+    { id: 1, title: "ITEM 1", content: "This is the first item." },
+    { id: 2, title: "ITEM 2", content: "This is the second item." }
 ];
 
 function renderPosts() {

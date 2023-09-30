@@ -4,25 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer</title>
+    <style>
+         /*Reset some default styles*/
+         *{
+            margin: 0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        /*Body styles */
+        body{
+            font-family: Arial,sans-serif;
+            color: rgb(65, 97, 10);
+            background-color: rgb(164, 229, 195);
+            border:2px solid rgb(87, 183, 87);
+        
+        }
+    </style>
 </head>
 <body>
     
 
-        <h1>Simple Blog</h1>
+        <h1>Farmer</h1>
     
         <!-- Post Form -->
         <div class="post-form">
-            <h2>Add a New Post</h2>
+            <h2>Add a Item</h2>
             <input type="text" id="postTitle" placeholder="Post Title">
             <textarea id="postContent" placeholder="Post Content"></textarea>
-            <button onclick="addPost()">Add Post</button>
+            <button onclick="addPost()">Add Item</button>
         </div>
     
-        <!-- List of Posts -->
         <div class="posts">
-            <h2>Blog Posts</h2>
+            <h2>Items</h2>
             <ul id="postList">
-                <!-- Posts will be displayed here -->
+                
             </ul>
         </div>
     

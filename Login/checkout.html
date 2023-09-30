@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./checkout.css">
     <title>Food Delivery Checkout</title>
     <style>
-        /* Add your CSS styles here */
+        /*Reset some default styles*/
+        *{
+            margin: 0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        /*Body styles */
+        body{
+            font-family: Arial,sans-serif;
+            color: rgb(65, 97, 10);
+            background-color: rgb(164, 229, 195);
+            border:2px solid rgb(87, 183, 87);
+        
+        }
     </style>
 </head>
 <body>
-    <h1>Food Delivery Checkout</h1>
+    <!-- <h1>Food Delivery Checkout</h1>
     <form id="checkout-form">
         <label for="name">Name:</label>
         <input type="text" id="name" required><br><br>
@@ -27,34 +41,48 @@
     </form>
 
     <div id="order-summary">
-        <!-- Order summary will be displayed here -->
-    </div>
+        
+    </div> -->
 
+    <h1>Checkout</h1>
+    <form action="" method="POST" onsubmit="return payWithPaystack()">
+        <!-- Replace with your form fields -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="amount">Amount (ZAR):</label>
+        <input type="number" id="amount" name="amount" required><br>
+
+        <button type="submit">Pay Now</button>
+    </form>
+
+    <!-- Include Paystack JavaScript library -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
-        const form = document.getElementById("checkout-form");
-        const orderSummary = document.getElementById("order-summary");
+        function payWithPaystack() {
+            var email = document.getElementById('email').value;
+            var amount = document.getElementById('amount').value * 100; // Amount in kobo
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
+            // Create a Paystack reference
+            var handler = PaystackPop.setup({
+                key: 'YOUR_PUBLIC_KEY', // Replace with your Paystack public key
+                email: email,
+                amount: amount,
+                currency: 'NGN',
+                ref: 'PAYSTACK_PAYMENT_' + Date.now(),
+                callback: function(response) {
+                    // Handle the payment success
+                    alert('Payment successful! Transaction reference: ' + response.reference);
+                },
+                onClose: function() {
+                    // Handle when the payment popup is closed
+                    alert('Payment window closed.');
+                }
+            });
 
-            // Get form data
-            const name = document.getElementById("name").value;
-            const address = document.getElementById("address").value;
-            const paymentMethod = document.getElementById("payment-method").value;
-
-            // You can calculate the total and create an order summary here
-            const orderTotal = 0; // Calculate the total cost
-            const summary = `
-                <h2>Order Summary</h2>
-                <p>Name: ${name}</p>
-                <p>Delivery Address: ${address}</p>
-                <p>Payment Method: ${paymentMethod}</p>
-                <p>Total: $${orderTotal}</p>
-            `;
-
-            // Display the order summary
-            orderSummary.innerHTML = summary;
-        });
+            handler.openIframe(); // Open the Paystack payment popup
+            return false; // Prevent form submission
+        }
     </script>
 </body>
 </html>
