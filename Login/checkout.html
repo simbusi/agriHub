@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Checkout</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Food Delivery Checkout</h1>
+    <form id="checkout-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
+        
+        <label for="address">Delivery Address:</label>
+        <textarea id="address" required></textarea><br><br>
+        
+        <label for="payment-method">Payment Method:</label>
+        <select id="payment-method" required>
+            <option value="credit-card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+        </select><br><br>
+        
+        <button type="submit">Place Order</button>
+    </form>
+
+    <div id="order-summary">
+        <!-- Order summary will be displayed here -->
+    </div>
+
+    <script>
+        const form = document.getElementById("checkout-form");
+        const orderSummary = document.getElementById("order-summary");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get form data
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+            const paymentMethod = document.getElementById("payment-method").value;
+
+            // You can calculate the total and create an order summary here
+            const orderTotal = 0; // Calculate the total cost
+            const summary = `
+                <h2>Order Summary</h2>
+                <p>Name: ${name}</p>
+                <p>Delivery Address: ${address}</p>
+                <p>Payment Method: ${paymentMethod}</p>
+                <p>Total: $${orderTotal}</p>
+            `;
+
+            // Display the order summary
+            orderSummary.innerHTML = summary;
+        });
+    </script>
+</body>
+</html>
