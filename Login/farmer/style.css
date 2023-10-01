@@ -18,7 +18,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,);
 }
 
 /* Centered Content */
@@ -79,7 +79,7 @@ button {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #af4c4c;
     color: #fff;
     border: none;
     border-radius: 5px;
