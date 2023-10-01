@@ -1,57 +1,65 @@
-/* Reset some default styles for consistency */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body {
+    max-width: 600px;
+    padding: 10px;
+    margin: 0 auto;
+    font-family: Arial,sans-serif;
+    color: rgb(65, 97, 10);
+    background-color: rgb(164, 229, 195);
+    border:2px solid rgb(87, 183, 87);  
 }
 
-/* Apply styles to the header */
-header {
-    background-color: #333;
-    color: #fff;
+h1 {
     text-align: center;
-    padding: 20px 0;
 }
-
-/* Style the product sections */
-.product {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.product img {
-    max-width: 100%;
+  
+  input:focus {
+    outline: 0;
+  }
+  
+  ::placeholder {
+    color: #aaa;
+  }
+  
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #e39f48;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+  
+  #payment-form {
+    width: 316px;
+    margin: 5px auto;
+  }
+  
+  #payment-form label {
+    display: block;
+    margin: 0 0 4px 0;
+    font-size: 11px;
+    color: inherit;
+    line-height: 1;
     height: auto;
+  }
+  
+  #payment-form input,
+  #payment-form .StripeElement {
+    width: 100%;
+    border-radius: 3px;
+    border: 0.75px solid #aaa;
+    padding: 0 10px;
     margin-bottom: 10px;
-}
-
-.product h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.product p {
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-.product button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.product button:hover {
-    background-color: #0056b3;
-}
-
-/* Add media queries for responsiveness as needed */
+  }
+  
+  #payment-form input {
+    line-height: 36px;
+  }
+  
+  #payment-form .StripeElement--webkit-autofill {
+    background: transparent !important;
+  }
+  
+  #card-errors {
+    margin: 4px 0;
+    color: #c12843;
+  }

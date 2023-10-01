@@ -2,87 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./checkout.css">
-    <title>Food Delivery Checkout</title>
-    <style>
-        /*Reset some default styles*/
-        *{
-            margin: 0;
-            padding:0;
-            box-sizing:border-box;
-        }
-        /*Body styles */
-        body{
-            font-family: Arial,sans-serif;
-            color: rgb(65, 97, 10);
-            background-color: rgb(164, 229, 195);
-            border:2px solid rgb(87, 183, 87);
-        
-        }
-    </style>
+    <title>Payment</title>
 </head>
 <body>
-    <!-- <h1>Food Delivery Checkout</h1>
-    <form id="checkout-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required><br><br>
+    <h1>Payment</h1>
+    <br><br><br><br>
+    <form action="/charge" method="post" id="payment-form">
+
+        <label>Name</label>
+        <input name="name" id="card-name" autocomplete="cc-name" placeholder="Name on card">
+
+
+        <label>Card Number</label>
+        <div id="card-number">
+            <!-- a Stripe Element will be inserted. -->
+            <input type="numbers" maxlength="12" placeholder="1234 1234 1234 1234">
+        </div>
+        <label>Expiration</label>
+        <div id="card-expiry">
+            <!-- a Stripe Element will be inserted. -->
+            <input type="number" maxlength="4" placeholder="MM/YY">
+        </div>
+        <label>CVC</label>
+        <div id="card-cvc">
+            <!-- a Stripe Element will be inserted. -->
+            <input type="number" maxlength="3" placeholder="CVC">
+        </div>
         
-        <label for="address">Delivery Address:</label>
-        <textarea id="address" required></textarea><br><br>
-        
-        <label for="payment-method">Payment Method:</label>
-        <select id="payment-method" required>
-            <option value="credit-card">Credit Card</option>
-            <option value="paypal">PayPal</option>
-        </select><br><br>
-        
-        <button type="submit">Place Order</button>
+
+        <!-- Used to display Element errors -->
+        <div id="card-errors" role="alert"></div>
+            
+        <button><a href="./location.html">Submit Payment</a></button>
     </form>
+    <br><br><br><br><br>
 
-    <div id="order-summary">
+      
+    <script type="text/javascript">
+        var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+        var elements = stripe.elements();
+
+        var elementStyles = {
+            base: {
+            fontFamily: 'sans-serif',
+            lineHeight: '36px',
+            fontSize: '14px',
+            '::placeholder': {
+                color: '#aaa',
+            },
+            ':-webkit-autofill': {
+                color: '#e39f48',
+            },
+            },
+            invalid: {
+            color: 'red'
+            },
+        };
+
+        // Allowed items:
+        // card (single-line input for all the fields),
+        // cardNumber, cardExpiry, cardCvc, 
+        // paymentRequestButton, iban, idealBank
+
+        var cardNumber = elements.create('cardNumber', {
+        style: elementStyles
+        });
+        cardNumber.mount('#card-number');
+
+        var cardExpiry = elements.create('cardExpiry', {
+        style: elementStyles
+        });
+        cardExpiry.mount('#card-expiry');
+
+        var cardCvc = elements.create('cardCvc', {
+        style: elementStyles
+        });
+        cardCvc.mount('#card-cvc');
+
+
+        //submitting the form
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            createToken();
+        });
+
+
+        //create token
+
+        function createToken() {
+
+            // Gather additional customer data we may have collected in our form.
+            var name =      $('#card-name');
+            var address1 =  $('#card-address');
+            var city =      $('#card-city');
+            var state =     $('#card-city');
+            var zip =       $('#card-zip');
         
-    </div> -->
+            var additionalData = {
+            name: name ? name.value : undefined,
+            address_line1: address1 ? address1.value : undefined,
+            address_city: city ? city.value : undefined,
+            address_state: state ? state.value : undefined,
+            address_zip: zip ? zip.value : undefined,
+            };
 
-    <h1>Checkout</h1>
-    <form action="" method="POST" onsubmit="return payWithPaystack()">
-        <!-- Replace with your form fields -->
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+            // Important: Although we're submitting several fields, use cardNumber here instead of 'elements'.
+            stripe.createToken(cardNumber, additionalData).then(function(result) {
 
-        <label for="amount">Amount (ZAR):</label>
-        <input type="number" id="amount" name="amount" required><br>
+            // Stop loading!
+            $('body').removeClass('submitting');
 
-        <button type="submit">Pay Now</button>
-    </form>
-
-    <!-- Include Paystack JavaScript library -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script>
-        function payWithPaystack() {
-            var email = document.getElementById('email').value;
-            var amount = document.getElementById('amount').value * 100; // Amount in kobo
-
-            // Create a Paystack reference
-            var handler = PaystackPop.setup({
-                key: 'YOUR_PUBLIC_KEY', // Replace with your Paystack public key
-                email: email,
-                amount: amount,
-                currency: 'NGN',
-                ref: 'PAYSTACK_PAYMENT_' + Date.now(),
-                callback: function(response) {
-                    // Handle the payment success
-                    alert('Payment successful! Transaction reference: ' + response.reference);
-                },
-                onClose: function() {
-                    // Handle when the payment popup is closed
-                    alert('Payment window closed.');
-                }
+            if (result.error) {
+                // Inform the user if there was an error
+            } else {
+                // Send the token to your server
+                // yourTokenHandler(result.token);
+            }
+            
             });
+        
+        
+        };
 
-            handler.openIframe(); // Open the Paystack payment popup
-            return false; // Prevent form submission
-        }
-    </script>
+    </script> 
+      
 </body>
 </html>
